@@ -1,0 +1,12 @@
+.posts-list {
+    margin: 27px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 27px;
+}
+
+.post-content.post-title {
+    text-align: center;
+}
