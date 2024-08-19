@@ -7,6 +7,28 @@
     gap: 27px;
 }
 
-.post-content.post-title {
+.post-title {
     text-align: center;
+}
+
+
+.posts-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.post-info {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.post-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
