@@ -6,5 +6,6 @@ const { createPost, editPost, deletePost } = require('../controllers/post-contro
 router.post('/create', createPost);
 router.put('/edit/:id', editPost);
 router.delete('/delete/:id', deletePost);
+router.get('/get', deletePost);
 
 module.exports = router;

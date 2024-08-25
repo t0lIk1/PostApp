@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
+  authorName: {
+    type: String,
+    required: true,
+  },authorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
   title: {
     type: String,
     required: true,

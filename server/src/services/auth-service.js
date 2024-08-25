@@ -1,5 +1,5 @@
 const userModel = require('../models/User');
-const {generateToken, saveToken} = require('./token-service');
+const {generateToken, saveToken, removeToken, validationRefreshToken, findToken} = require('./token-service');
 const errorHandler = require("../utils/handleError");
 const UserDto = require('../dto/user-dto');
 const bcrypt = require('bcrypt');
@@ -13,9 +13,12 @@ const registrationUser = async (name, email, password) => {
       throw new Error(`User with email ${email} already exists`);
     }
 
+    const isFirstUser = (await userModel.countDocuments({})) === 0;
+    const role = isFirstUser ? 'admin' : 'user';
+
     // Хеширование пароля
     const hashPassword = bcrypt.hashSync(password, 10);
-    const user = await userModel.create({name, email, password: hashPassword});
+    const user = await userModel.create({name, email, password: hashPassword, role});
 
     // Создание DTO и генерация токенов
     const userDto = new UserDto(user);
@@ -63,12 +66,48 @@ const loginUser = async (email, password) => {
 };
 
 const logoutUser = async (refreshToken) => {
-  const token = await removeToken(refreshToken)
-  return token;
+  try {
+    const token = await removeToken(refreshToken)
+    return token;
+  } catch (e) {
+    console.log('logout')
+  }
 };
 
+const refreshtoken = async (refreshToken) => {
+  try {
+    if (!refreshToken) {
+      throw ApiError.UnauthorizedError();
+    }
+    const userData = validationRefreshToken(refreshToken);
+    const tokenFromDB = await findToken(refreshToken)
+    if (!userData && !tokenFromDB) {
+      console.log("author eror")
+    }
+    const user = await userModel.findById(userData.id);
+
+    const userDto = new UserDto(user);
+    const tokens = generateToken({id: userDto.id});
+
+    await saveToken(userDto.id, tokens.refreshToken);
+
+    return {
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      user: userDto,
+    };
+  } catch (e) {
+
+  }
+}
+
 const getAllUsers = async (req, res) => {
-  // Логика получения всех пользователей
+  try {
+    const users = await userModel.find();
+    return users
+  } catch (e) {
+    console.log(e)
+  }
 };
 
 module.exports = {
@@ -76,4 +115,5 @@ module.exports = {
   loginUser,
   logoutUser,
   getAllUsers,
+  refreshtoken
 };

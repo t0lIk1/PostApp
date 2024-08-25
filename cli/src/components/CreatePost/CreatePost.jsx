@@ -10,7 +10,7 @@ const CreatePost = () => {
         <form method="POST" className="create-form form">
           <h2 className="form-title">Create Post</h2>
           <input className="form-input border-style" type="text" name="title" placeholder="Title..."/>
-          <textarea className="form-input border-style form-textarea" name="email" placeholder="Text..."/>
+          <textarea className="form-input border-style form-textarea" name="text" placeholder="Text..."/>
           <button className="form-submit border-style">create</button>
         </form>
       </div>

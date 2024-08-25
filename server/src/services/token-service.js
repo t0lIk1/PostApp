@@ -22,11 +22,46 @@ const saveToken = async (userId, refreshToken) => {
 };
 
 const removeToken = async (refreshToken) => {
-  const tokenData = await TokenModel.deleteOne({refreshToken});
-  return tokenData;
+  try {
+    const tokenData = await TokenModel.deleteOne({refreshToken});
+    return tokenData;
+  } catch (e) {
+    console.log('token service')
+  }
+}
+
+const validationRefreshToken = (token) => {
+  try {
+    const userData = jwt.verify(token, process.env.JWT_REFRESH_TOKEN);
+    return userData;
+  } catch (e) {
+    return null;
+  }
+}
+
+const validationAccessToken = (token) => {
+  try {
+    const userData = jwt.verify(token, process.env.JWT_ACCESS_TOKEN);
+    return userData;
+  } catch (e) {
+    return null;
+  }
+}
+
+const findToken = async (refreshToken) => {
+  try {
+    const tokenData = await TokenModel.findOne({refreshToken});
+    return tokenData;
+  } catch (e) {
+    console.log('token service')
+  }
 }
 
 module.exports = {
   generateToken,
-  saveToken
+  saveToken,
+  removeToken,
+  validationRefreshToken,
+  validationAccessToken,
+  findToken
 };

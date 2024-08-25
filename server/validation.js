@@ -7,6 +7,7 @@ const registrationValidator = [
   body('password').isString().isLength({ min: 8 }).withMessage('password min 8 symb').exists(),
 ]
 
+
 const loginValidator = [
   body('email').isEmail().withMessage('eamil is uncorrect').exists(),
   body('password').isString().isLength({ min: 8 }).withMessage('password min 8 symb').exists(),

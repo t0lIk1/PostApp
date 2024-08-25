@@ -24,7 +24,10 @@ app.use(handleError);
 const start = async () => {
   try {
     await mongoose.connect(process.env.DB_URL, {
-    });
+      dbName: 'Post',
+    })
+      .then(() => console.log('Connected to MongoDB'))
+      .catch(err => console.error('Failed to connect to MongoDB', err))
     app.listen(PORT, () => {
       console.log(`Listening on port ${PORT}`);
     });
