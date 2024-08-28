@@ -1,7 +1,7 @@
 const {registrationUser, loginUser} = require('../services/auth-service.js');
 const handleError = require('../utils/handleError.js');
 const {validationResult} = require("express-validator")
-const {logoutUser, getAllUsers} = require("../services/auth-service");
+const {logoutUser, getAllUsers, refreshtoken} = require("../services/auth-service");
 
 
 const registration = async (req, res) => {

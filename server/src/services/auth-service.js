@@ -82,7 +82,7 @@ const refreshtoken = async (refreshToken) => {
     const userData = validationRefreshToken(refreshToken);
     const tokenFromDB = await findToken(refreshToken)
     if (!userData && !tokenFromDB) {
-      console.log("author eror")
+      console.log("author erorr")
     }
     const user = await userModel.findById(userData.id);
 
