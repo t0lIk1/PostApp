@@ -12,7 +12,10 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser()); // Исправлено на cookieParser
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: process.env.CLI_URL,
+}));
 
 // Подключение маршрутов
 app.use('/api/post', postRoutes);
